@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Or_Odia Calander 2024 - Kohinoor</string>
+    <string name="btn_ok" translatable="false">Ori_ok</string>
+    <string name="dummy" translatable="false">Ori_Dummy</string>
+    <string name="dt" translatable="false">Ori Dummy Data</string>
+</resources>

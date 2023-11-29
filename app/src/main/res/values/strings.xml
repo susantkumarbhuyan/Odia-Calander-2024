@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">Odia Calander 2024 - Kohinoor</string>
+    <string name="btn_ok" translatable="false">Eng_ok</string>
+    <string name="dummy" translatable="false">Eng_Dummy</string>
+    <string name="dt" translatable="false">Eng Dummy Data</string>
+
+    <string name="follow_system">System</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
+    <string name="la_en_US" translatable="false">English</string>
+    <string name="la_or" translatable="false">ଓଡିଆ</string>
+    <string name="la_hi" translatable="false">हिन्दी</string>
+    <string name="dark_theme">Dark theme</string>
+</resources>
