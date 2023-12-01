@@ -25,10 +25,10 @@ fun getCurrentMonth(): Int {
     return current.format(formatter).toInt()
 }
 
-fun getCurrentYear(): String {
+fun getCurrentYear(): Int {
     val current = LocalDateTime.now()
     val formatter = DateTimeFormatter.ofPattern("uuuu")
-    return current.format(formatter)
+    return current.format(formatter).toInt()
 }
 
 fun getMonths(): List<Month> {

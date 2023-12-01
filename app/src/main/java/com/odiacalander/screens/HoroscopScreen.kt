@@ -49,8 +49,10 @@ fun TestLanguage() {
       //  MainActivity.setLanguage(getLanguageConfiguration())
       changeLang(getLanguageConfiguration())
     }
+    val name :String = ""
+    val id  =LocalContext.current.resources.getIdentifier(name, "string", context.packageName)
     Column {
-        Text(text = stringResource(R.string.dummy))
+        Text(text = stringResource(id))
         Button(onClick = {
             setLanguage(1)
         }) {

@@ -1,5 +1,6 @@
 package com.odiacalander.screens
 
+import android.text.format.DateUtils.isToday
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -54,6 +55,7 @@ import com.odiacalander.dataclasses.Date
 import com.odiacalander.dataclasses.MonthEntity
 import com.odiacalander.getCurrentDate
 import com.odiacalander.getCurrentMonth
+import com.odiacalander.getCurrentYear
 import com.odiacalander.ui.theme.color1
 import com.odiacalander.ui.theme.color2
 import com.odiacalander.ui.theme.color3
@@ -69,24 +71,28 @@ import com.odiacalander.weeks
 @Composable
 fun CalendarScreen() {
     val context = LocalContext.current
-    val pagerState = rememberPagerState(initialPage = getCurrentMonth() - 1) {
-        12
-    }
-    HorizontalPager(state = pagerState) { index ->
 
+    val pagerState =
+        rememberPagerState(initialPage = DataManager.getMonthIndex(getCurrentMonth())) {
+            DataManager.getMontCalendar().size
+        }
+    HorizontalPager(state = pagerState) { index ->
+        Log.d("INDEX ---  ", index.toString())
         DataManager.loadAssetsFromJsonFile(context, index)
-        if (DataManager.isDataLoaded && DataManager.data.monthId - 1 == index) {
-            CalendarBox(DataManager.data)
+        if (DataManager.isDataLoaded) {
+            CalendarBox(DataManager.data, index)
         } else {
             Loading()
         }
+
     }
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CalendarBox(currentMonth: MonthEntity) {
+private fun CalendarBox(currentMonth: MonthEntity, index: Int) {
+    Log.d("MONTH ---  ", currentMonth.name)
     Column(modifier = Modifier.background(color5)) {
         Box(
             modifier = Modifier
@@ -103,7 +109,7 @@ private fun CalendarBox(currentMonth: MonthEntity) {
                     color = color2
                 )
                 Spacer(modifier = Modifier.size(10.dp))
-                DatesTable(currentMonth.dates)
+                DatesTable(currentMonth.dates, index)
             }
         }
 
@@ -137,7 +143,7 @@ private fun CalendarBox(currentMonth: MonthEntity) {
 
 @ExperimentalMaterial3Api
 @Composable
-fun DatesTable(dates: List<Date>) {
+fun DatesTable(dates: List<Date>, index: Int) {
 
     val rows = 6
     val columns = 7
@@ -182,7 +188,7 @@ fun DatesTable(dates: List<Date>) {
                             if (cDate?.isGovtHoliday == true || (1..5).contains(index)) color6 else color4
                         )
                         .border(
-                            width = if (cDate?.date == getCurrentDate()) 2.dp else 0.dp,
+                            width = if (getCurrentDate() == cDate?.date) 2.dp else 0.dp,
                             color3,
                             shape = RoundedCornerShape(8.dp)
                         ),
