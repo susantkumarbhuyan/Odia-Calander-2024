@@ -64,10 +64,10 @@ dependencies {
 //Splash Api
     implementation("androidx.core:core-splashscreen:1.0.1")
     //MMKV (Ultrafast Key-Value storage)
+    implementation ("com.google.android.gms:play-services-ads:22.5.0")
     //Core libs for the app
     implementation("androidx.compose.material:material:1.6.0-beta01")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    implementation ("com.kizitonwose.calendar:compose:2.4.0")
     implementation(libs.bundles.core)
     implementation(libs.mmkv)
     implementation(libs.core.ktx)

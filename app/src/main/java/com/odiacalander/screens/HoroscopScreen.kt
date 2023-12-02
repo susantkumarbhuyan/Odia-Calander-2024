@@ -70,7 +70,7 @@ fun TestLanguage() {
         }) {
             Text(text = "Hindi")
         }
-        Text(text = lag.toString())
+        Text(text = lag)
         Spacer(modifier = Modifier.padding(10.dp))
         Button(onClick = {
             lag = LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()

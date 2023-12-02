@@ -1,6 +1,7 @@
 package com.odiacalander
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.odiacalander.dataclasses.Date
@@ -49,13 +50,13 @@ fun getMonths(): List<Month> {
 }
 
 val weeks = listOf(
-    Week("Sun", Color(0xFFBE3144)),
-    Week("Mon", Color(0xFF0766AD)),
-    Week("Tue", Color(0xFF4E9F3D)),
-    Week("Wed", Color(0xFF3F0071)),
-    Week("Thu", Color(0xFFC84B31)),
-    Week("Fri", Color(0xFF39A7FF)),
-    Week("Sat", Color(0xFFBE3144))
+    Week(R.string.monday, Color(0xFF0766AD)),
+    Week(R.string.tuesday, Color(0xFF4E9F3D)),
+    Week(R.string.wednesday, Color(0xFF3F0071)),
+    Week(R.string.thursday, Color(0xFFC84B31)),
+    Week(R.string.friday, Color(0xFF39A7FF)),
+    Week(R.string.saturday, Color(0xFFBE3144)),
+    Week(R.string.sunday, Color(0xFFBE3144))
 )
 
 

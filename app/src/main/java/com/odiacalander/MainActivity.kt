@@ -15,6 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.odiacalander.ui.common.LocalDarkTheme
 import com.odiacalander.ui.common.LocalDynamicColorSwitch
 import com.odiacalander.ui.common.SettingsProvider
@@ -26,14 +33,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
+    private var mInterstitialAd: InterstitialAd? = null
+    private var adId: String = "ca-app-pub-3940256099942544/1033173712"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         runBlocking {
             AppCompatDelegate.setApplicationLocales(
                 LocaleListCompat.forLanguageTags(PreferenceUtil.getLanguageConfiguration())
             )
         }
         setContent {
+            MobileAds.initialize(this) {}
             SettingsProvider() {
                 OdiaCalander2024KohinoorTheme(darkTheme = LocalDarkTheme.current.isDarkTheme()) {
                     Surface(
@@ -47,6 +59,7 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+
 
     companion object {
         private const val TAG = "MainActivity"

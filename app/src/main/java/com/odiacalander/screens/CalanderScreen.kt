@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -168,7 +169,7 @@ fun DatesTable(dates: List<Date>, index: Int) {
                     Alignment.Center
                 ) {
                     Text(
-                        text = weeks[weekCount].name,
+                        text = stringResource(weeks[weekCount].name),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp

@@ -4,4 +4,15 @@
     <string name="btn_ok" translatable="false">Hin_ok</string>
     <string name="dummy" translatable="false">Hin_Dummy</string>
     <string name="dt" translatable="false">Hin Dummy Data</string>
+
+
+    <!--weeks-->
+    <string name="monday" translatable="false">सोम</string>
+    <string name="tuesday" translatable="false">मंगल</string>
+    <string name="wednesday" translatable="false">बुध</string>
+    <string name="thursday" translatable="false">गुरु</string>
+    <string name="friday" translatable="false">शुक्र</string>
+    <string name="saturday" translatable="false">शनि</string>
+    <string name="sunday" translatable="false">रवि</string>
+
 </resources>

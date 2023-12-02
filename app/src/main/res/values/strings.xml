@@ -4,12 +4,21 @@
     <string name="dummy" translatable="false">Eng_Dummy</string>
     <string name="dt" translatable="false">Eng Dummy Data</string>
 
-    <string name="follow_system">System</string>
-    <string name="on">On</string>
-    <string name="off">Off</string>
+    <string name="follow_system" translatable="false">System</string>
+    <string name="on" translatable="false">On</string>
+    <string name="off" translatable="false">Off</string>
 
     <string name="la_en_US" translatable="false">English</string>
     <string name="la_or" translatable="false">ଓଡିଆ</string>
     <string name="la_hi" translatable="false">हिन्दी</string>
-    <string name="dark_theme">Dark theme</string>
+    <string name="dark_theme" translatable="false">Dark theme</string>
+
+    <!--weeks-->
+    <string name="monday" translatable="false">Mon</string>
+    <string name="tuesday" translatable="false">Tue</string>
+    <string name="wednesday" translatable="false">Wed</string>
+    <string name="thursday" translatable="false">Thu</string>
+    <string name="friday" translatable="false">Fri</string>
+    <string name="saturday" translatable="false">Sat</string>
+    <string name="sunday" translatable="false">Sun</string>
 </resources>

@@ -4,4 +4,14 @@
     <string name="btn_ok" translatable="false">Ori_ok</string>
     <string name="dummy" translatable="false">Ori_Dummy</string>
     <string name="dt" translatable="false">Ori Dummy Data</string>
+
+    <!--weeks-->
+    <string name="monday" translatable="false">ସୋମ</string>
+    <string name="tuesday" translatable="false">ମଙ୍ଗଳ</string>
+    <string name="wednesday" translatable="false">ବୁଧ</string>
+    <string name="thursday" translatable="false">ଗୁରୁ</string>
+    <string name="friday" translatable="false">ଶୁକ୍ର</string>
+    <string name="saturday" translatable="false">ଶନି</string>
+    <string name="sunday" translatable="false">ରବି</string>
+
 </resources>
