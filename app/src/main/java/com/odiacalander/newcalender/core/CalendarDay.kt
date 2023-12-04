@@ -3,6 +3,7 @@ package com.odiacalander.newcalender.core
 
 
 import androidx.compose.runtime.Immutable
+import com.odiacalander.newdataclasses.NewDayData
 import java.io.Serializable
 import java.time.LocalDate
 
@@ -13,4 +14,4 @@ import java.time.LocalDate
  * @param position the [DayPosition] for this day.
  */
 @Immutable
-data class CalendarDay(val date: LocalDate, val position: DayPosition) : Serializable
+data class CalendarDay(val date: LocalDate, val position: DayPosition, val dayData : NewDayData) : Serializable

@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Odia Calander 2024 - Kohinoor</string>
-    <string name="btn_ok" translatable="false">Hin_ok</string>
-    <string name="dummy" translatable="false">Hin_Dummy</string>
-    <string name="dt" translatable="false">Hin Dummy Data</string>
+    <string name="btn_ok">Hin_ok</string>
+    <string name="dummy">Hin_Dummy</string>
+    <string name="dt">Hin Dummy Data</string>
 
 
     <!--weeks-->
-    <string name="monday" translatable="false">सोम</string>
-    <string name="tuesday" translatable="false">मंगल</string>
-    <string name="wednesday" translatable="false">बुध</string>
-    <string name="thursday" translatable="false">गुरु</string>
-    <string name="friday" translatable="false">शुक्र</string>
-    <string name="saturday" translatable="false">शनि</string>
-    <string name="sunday" translatable="false">रवि</string>
+    <string name="monday">सोम</string>
+    <string name="tuesday">मंगल</string>
+    <string name="wednesday">बुध</string>
+    <string name="thursday">गुरु</string>
+    <string name="friday">शुक्र</string>
+    <string name="saturday">शनि</string>
+    <string name="sunday">रवि</string>
+
+    <!-- months-->
+    <string name="January">जनवरी</string>
+    <string name="February">फरवरी</string>
+    <string name="March">मार्च</string>
+    <string name="April">अप्रैल</string>
+    <string name="May">मई</string>
+    <string name="June">जून</string>
+    <string name="July">जुलाई</string>
+    <string name="August">अगस्त</string>
+    <string name="September">सितंबर</string>
+    <string name="October">अक्टूबर</string>
+    <string name="November">नवम्बर</string>
+    <string name="December">दिसम्बर</string>
+
+    <!--    home_items-->
+    <string name="Calendar" >Calendar</string>
+    <string name="Festivals" >उत्सव</string>
+    <string name="GovtHolidays" >सरकारी छुट्टियाँ</string>
+    <string name="Muhurat" >मुहूर्त</string>
+    <string name="Horoscope" >राशिफल</string>
 
 </resources>

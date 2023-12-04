@@ -21,11 +21,13 @@ private const val DYNAMIC_COLOR = "dynamic_color"
 const val DARK_THEME_VALUE = "dark_theme_value"
 const val LANGUAGE = "language"
 const val NOTIFICATION = "notification"
+const val BLOG_DATA_LOADED = "blog_data_load"
+const val DIALY_HOSOSCOPE_ALT_NUMBER = "dailyHoroscopeAltNumber"
 const val SYSTEM_DEFAULT = 0
 private val BooleanPreferenceDefaults = mapOf(
     NOTIFICATION to true,
-
-    )
+    BLOG_DATA_LOADED to false
+)
 
 private val IntPreferenceDefaults = mapOf(
     LANGUAGE to SYSTEM_DEFAULT,
@@ -53,6 +55,9 @@ object PreferenceUtil {
     fun encodeString(key: String, string: String) = key.updateString(string)
     fun containsKey(key: String) = kv.containsKey(key)
 
+    fun isDataLoaded() =
+        BLOG_DATA_LOADED.getBoolean()
+
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)) =
         languageMap.getOrElse(languageNumber) { "" }
 
@@ -66,6 +71,15 @@ object PreferenceUtil {
             LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString()
         )
         else LANGUAGE.getInt()
+    }
+
+
+    fun getDailyHoroscopeAltNumber(): Int {
+        var altNum = kv.decodeInt(DIALY_HOSOSCOPE_ALT_NUMBER) + 1
+        if(altNum<0)
+            altNum= 235
+        kv.encode(DIALY_HOSOSCOPE_ALT_NUMBER, altNum)
+        return altNum
     }
 
 
@@ -108,6 +122,7 @@ object PreferenceUtil {
     val AppSettingsStateFlow = mutableAppSettingsStateFlow.asStateFlow()
 
 }
+
 data class DarkThemePreference(
     val darkThemeValue: Int = FOLLOW_SYSTEM
 ) {

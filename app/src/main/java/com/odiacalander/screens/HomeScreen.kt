@@ -1,11 +1,9 @@
 package com.odiacalander.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,9 +12,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -46,23 +44,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.odiacalander.R
+import com.odiacalander.dataclasses.Month
 import com.odiacalander.dataclasses.getHomeItems
-import com.odiacalander.getCurrentDate
-import com.odiacalander.getCurrentMonth
-import com.odiacalander.getCurrentYear
-import com.odiacalander.getMonths
+import com.odiacalander.util.getCurrentDate
+import com.odiacalander.util.getCurrentYear
+import com.odiacalander.util.getMonthIndexId
+import com.odiacalander.util.localeMonths
 import com.odiacalander.ui.common.LocalDarkTheme
 import com.odiacalander.ui.common.PreferenceSwitch
-import com.odiacalander.ui.common.Route
 import com.odiacalander.ui.component.CustomDropDownMenu
-import com.odiacalander.ui.theme.color2
 import com.odiacalander.util.DarkThemePreference.Companion.OFF
 import com.odiacalander.util.DarkThemePreference.Companion.ON
 import com.odiacalander.util.PreferenceUtil
@@ -70,10 +66,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen( onClick: (route: String) -> Unit) {
+fun HomeScreen( monthList: List<Month>,onClick: (route: String) -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -83,11 +80,11 @@ fun HomeScreen( onClick: (route: String) -> Unit) {
             val isDarkTheme = LocalDarkTheme.current.isDarkTheme()
             ModalDrawerSheet {
                 PreferenceSwitch(title = stringResource(id = R.string.dark_theme),
-                    icon = if (isDarkTheme) Icons.Outlined.Star else Icons.Outlined.Settings,
+                    icon = if (isDarkTheme) Icons.Outlined.DarkMode else Icons.Outlined.LightMode,
                     isChecked = isDarkTheme,
                     description = LocalDarkTheme.current.getDarkThemeDesc(),
                     onChecked = { PreferenceUtil.modifyDarkThemePreference(if (isDarkTheme) OFF else ON) },
-                    onClick = {  })
+                    onClick = { })
                 Text("Drawer title", modifier = Modifier.padding(16.dp))
                 Divider()
                 NavigationDrawerItem(
@@ -133,7 +130,7 @@ fun HomeScreen( onClick: (route: String) -> Unit) {
             ) {
                 Card(modifier = Modifier.padding(8.dp)) {
                     Text(
-                        text = "${getCurrentDate()} - ${getMonths()[getCurrentMonth().toInt() - 1].month} - ${getCurrentYear()}",
+                        text = "${getCurrentDate()} - ${stringResource(localeMonths[monthList[getMonthIndexId()].monthId]!!)} - ${getCurrentYear()}",
                         fontSize = 20.sp,
                         modifier = Modifier.padding(10.dp)
                     )
@@ -157,9 +154,8 @@ fun HomeScreen( onClick: (route: String) -> Unit) {
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.fillMaxSize()
                             ) {
-                                Image(
-                                    painter = painterResource(id = if (item == 0) getMonths()[getCurrentMonth().toInt() - 1].image else getHomeItems()[item].image),
-
+                                AsyncImage(
+                                    model = if (item == 0) monthList[item].image else getHomeItems()[item].image,
                                     modifier = Modifier
                                         .size(70.dp)
                                         .padding(start = 6.dp, top = 6.dp, end = 6.dp),
@@ -167,9 +163,8 @@ fun HomeScreen( onClick: (route: String) -> Unit) {
                                 )
 
                                 Text(
-                                    text = if (item == 0) getMonths()[getCurrentMonth().toInt() - 1].month else getHomeItems()[item].title,
+                                    text = stringResource(id = if (item == 0) localeMonths[monthList[getMonthIndexId()].monthId]!! else getHomeItems()[item].title),
                                     fontSize = 16.sp,
-
                                     modifier = Modifier.padding(
                                         start = 6.dp,
                                         bottom = 6.dp,
@@ -188,7 +183,7 @@ fun HomeScreen( onClick: (route: String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BuildTopBar(scrollBehavior: TopAppBarScrollBehavior, onClick: () -> Unit) {
+fun BuildTopBar(scrollBehavior: TopAppBarScrollBehavior, onClick: () -> Unit) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -197,8 +192,6 @@ private fun BuildTopBar(scrollBehavior: TopAppBarScrollBehavior, onClick: () -> 
         title = {
             Text(
                 "Odia Calender",
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
             )
         },
         navigationIcon = {
@@ -220,7 +213,7 @@ private fun BuildTopBar(scrollBehavior: TopAppBarScrollBehavior, onClick: () -> 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun HomeScreenPrv() {
-    HomeScreen {}
+   // HomeScreen(months = emptyList<Month>()) {}
 }
 
 @OptIn(ExperimentalLayoutApi::class)

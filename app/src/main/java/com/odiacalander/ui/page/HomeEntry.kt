@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,10 +18,12 @@ import com.odiacalander.screens.CalendarScreen
 import com.odiacalander.screens.FestivalsScreen
 import com.odiacalander.screens.HolidayScreen
 import com.odiacalander.screens.HomeScreen
-import com.odiacalander.screens.HoroscopScreen
+import com.odiacalander.screens.HoroscopeScreen
 import com.odiacalander.screens.MuhurthaScreen
 import com.odiacalander.ui.common.Route
 import com.odiacalander.ui.common.animatedComposable
+import com.odiacalander.util.CalendarManager
+import kotlinx.coroutines.runBlocking
 
 
 @Composable
@@ -30,8 +31,9 @@ fun HomeEntry(
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current
-
-    val scope = rememberCoroutineScope()
+    val monthList =
+        runBlocking {
+        CalendarManager.loadMonthListFromDB(context)}
 
 
     val onBackPressed: () -> Unit = {
@@ -62,23 +64,23 @@ fun HomeEntry(
             startDestination = Route.HOME
         ) {
             animatedComposable(Route.HOME) {
-                HomeScreen {
+                HomeScreen(monthList = monthList) {
                     navController.navigate(it)
                 }
             }
-            animatedComposable(route = HomeItems.CalanderImgs.route) {
-                CalanderImgsScreen()
+            animatedComposable(route = HomeItems.CalendarImgs.route) {
+                CalanderImgsScreen(months = monthList)
             }
-            animatedComposable(route = HomeItems.Calander.route) {
+            animatedComposable(route = HomeItems.Calendar.route) {
                 CalendarScreen()
             }
-            animatedComposable(route = HomeItems.Horoscop.route) {
-                HoroscopScreen()
+            animatedComposable(route = HomeItems.Horoscope.route) {
+                HoroscopeScreen()
             }
             composable(route = HomeItems.Festivals.route) {
                 FestivalsScreen()
             }
-            composable(route = HomeItems.Muhurtha.route) {
+            composable(route = HomeItems.Muhurat.route) {
                 MuhurthaScreen()
             }
             composable(route = HomeItems.GovtHolidays.route) {

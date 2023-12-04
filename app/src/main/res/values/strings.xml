@@ -1,24 +1,47 @@
 <resources>
-    <string name="app_name" translatable="false">Odia Calander 2024 - Kohinoor</string>
-    <string name="btn_ok" translatable="false">Eng_ok</string>
-    <string name="dummy" translatable="false">Eng_Dummy</string>
-    <string name="dt" translatable="false">Eng Dummy Data</string>
+    <string name="app_name">Odia Calander 2024 - Kohinoor</string>
+    <string name="btn_ok">Eng_ok</string>
+    <string name="dummy">Eng_Dummy</string>
+    <string name="dt">Eng Dummy Data</string>
 
-    <string name="follow_system" translatable="false">System</string>
-    <string name="on" translatable="false">On</string>
-    <string name="off" translatable="false">Off</string>
+    <string name="follow_system">System</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
 
-    <string name="la_en_US" translatable="false">English</string>
-    <string name="la_or" translatable="false">ଓଡିଆ</string>
-    <string name="la_hi" translatable="false">हिन्दी</string>
-    <string name="dark_theme" translatable="false">Dark theme</string>
+    <string name="la_en_US">English</string>
+    <string name="la_or">ଓଡିଆ</string>
+    <string name="la_hi">हिन्दी</string>
+    <string name="dark_theme">Dark theme</string>
 
     <!--weeks-->
-    <string name="monday" translatable="false">Mon</string>
-    <string name="tuesday" translatable="false">Tue</string>
-    <string name="wednesday" translatable="false">Wed</string>
-    <string name="thursday" translatable="false">Thu</string>
-    <string name="friday" translatable="false">Fri</string>
-    <string name="saturday" translatable="false">Sat</string>
-    <string name="sunday" translatable="false">Sun</string>
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Sun</string>
+
+    <!-- months-->
+    <string name="January">January</string>
+    <string name="February">February</string>
+    <string name="March">March</string>
+    <string name="April">April</string>
+    <string name="May">May</string>
+    <string name="June">June</string>
+    <string name="July">July</string>
+    <string name="August">August</string>
+    <string name="September">September</string>
+    <string name="October">October</string>
+    <string name="November">November</string>
+    <string name="December">December</string>
+
+    <!--    home_items-->
+    <string name="Calendar">Calendar</string>
+    <string name="Festivals">Festivals</string>
+    <string name="GovtHolidays">Govt Holidays</string>
+    <string name="Muhurat">Muhurat</string>
+    <string name="Horoscope">Horoscope</string>
+    <string name="title_activity_maps">MapsActivity</string>
+
 </resources>

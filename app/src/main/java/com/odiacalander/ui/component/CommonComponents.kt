@@ -10,18 +10,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import com.odiacalander.MainActivity
 import com.odiacalander.R
-import com.odiacalander.screens.changeLang
 import com.odiacalander.util.LANGUAGE
 import com.odiacalander.util.PreferenceUtil
 import com.odiacalander.util.PreferenceUtil.getLanguageConfiguration
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -53,7 +51,8 @@ fun CustomDropDownMenu() {
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
     var language by remember { mutableIntStateOf(PreferenceUtil.getLanguageNumber()) }
-    fun setLanguage(selectedLanguage: Int) {
+    val scope = rememberCoroutineScope()
+    suspend fun setLanguage(selectedLanguage: Int) {
         language = selectedLanguage
         PreferenceUtil.encodeInt(LANGUAGE, language)
         MainActivity.setLanguage(getLanguageConfiguration())
@@ -77,28 +76,38 @@ fun CustomDropDownMenu() {
             DropdownMenuItem(
                 text = { Text("Odia") },
                 onClick = {
-                    setLanguage(1)
-                    Toast.makeText(context, "Odia", Toast.LENGTH_SHORT).show()
+                    scope.launch {
+                        setLanguage(1)
+                        Toast.makeText(context, "Odia", Toast.LENGTH_SHORT).show()
+                    }
                 }
             )
             DropdownMenuItem(
                 text = { Text("English") },
                 onClick = {
-                    setLanguage(2)
-                    Toast.makeText(context, "English", Toast.LENGTH_SHORT).show()
+                    scope.launch {
+                        setLanguage(2)
+                        Toast.makeText(context, "English", Toast.LENGTH_SHORT).show()
+                    }
                 }
             )
             DropdownMenuItem(
                 text = { Text("Hindi") },
                 onClick = {
-                    setLanguage(3)
-                    Toast.makeText(context, "Hindi", Toast.LENGTH_SHORT).show()
+                    scope.launch {
+                        setLanguage(3)
+                        Toast.makeText(context, "Hindi", Toast.LENGTH_SHORT).show()
+                    }
                 }
             )
             DropdownMenuItem(
                 text = { Text("CheckAppLang") },
                 onClick = {
-                    Toast.makeText(context,  LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
             DropdownMenuItem(

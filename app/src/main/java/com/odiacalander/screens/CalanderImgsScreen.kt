@@ -2,7 +2,6 @@ package com.odiacalander.screens
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
@@ -11,17 +10,23 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.outlined.ChevronLeft
+import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,23 +44,56 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.odiacalander.getCurrentMonth
-import com.odiacalander.getMonths
-import com.odiacalander.ui.common.ZoomableImage
+import coil.compose.AsyncImage
+import com.odiacalander.components.CalendarReset
+import com.odiacalander.dataclasses.Month
+import com.odiacalander.util.getMonthIndexId
+import com.odiacalander.util.localeMonths
 import kotlinx.coroutines.launch
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun CalanderImgsScreen( months: List<Month>) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    val initialPage = getMonthIndexId()
+
+    val pagerState = rememberPagerState(
+        initialPage = initialPage
+    ) {
+        months.size
+    }
+    Scaffold(topBar = {
+        BuildTopBar(scrollBehavior) {
+            scope.launch {
+                drawerState.apply {
+                    if (isClosed) open() else close()
+                }
+            }
+        }
+    },
+        floatingActionButton = {
+            CalendarReset {
+                scope.launch {
+                    pagerState.animateScrollToPage(page = initialPage)
+                }
+            }
+        }
+    ) {
+        CalenderImgComp(modifier = Modifier.padding(it), pagerState = pagerState, months = months)
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CalanderImgsScreen() {
-    val months = getMonths()
-    val currentMonth = getCurrentMonth()
-    val pagerState = rememberPagerState(initialPage = currentMonth.toInt() - 1) {
-        months.size
-    }
+private fun CalenderImgComp(modifier: Modifier, pagerState: PagerState, months: List<Month> ) {
+//    val months = monthList()
+
 
     var offset by remember { mutableStateOf(Offset(0f, 0f)) }
     var scale by remember { mutableFloatStateOf(1f) }
@@ -72,15 +110,15 @@ fun CalanderImgsScreen() {
         // Collect from the a snapshotFlow reading the currentPage
         snapshotFlow { pagerState.currentPage }.collect { page ->
             // Do something with each page change, for example:
-            scale= 1f
+            scale = 1f
             offset = Offset(0f, 0f)
             Log.d("Page change", "Page changed to $page")
         }
     }
-    HorizontalPager(state = pagerState) { index ->
+    HorizontalPager(state = pagerState, modifier = modifier) { index ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.SpaceAround,
             modifier = Modifier.fillMaxHeight()
         ) {
             Row {
@@ -89,10 +127,10 @@ fun CalanderImgsScreen() {
                         pagerState.animateScrollToPage(page = pagerState.currentPage - 1)
                     }
                 }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "")
+                    Icon(imageVector = Icons.Outlined.ChevronLeft, contentDescription = "")
                 }
                 Text(
-                    text = " ${months[index].month} - ${months[index].year} ",
+                    text = " ${stringResource(localeMonths[months[index].monthId]!!)} - ${months[index].year} ",
                     fontSize = 23.sp,
                     modifier = Modifier.padding(6.dp)
                 )
@@ -101,7 +139,7 @@ fun CalanderImgsScreen() {
                         pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
                     }
                 }) {
-                    Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "")
+                    Icon(imageVector = Icons.Outlined.ChevronRight, contentDescription = "")
                 }
             }
 
@@ -118,8 +156,8 @@ fun CalanderImgsScreen() {
                             }
                         )
                     }) {
-                Image(
-                    painter = painterResource(id = months[index].image),
+                AsyncImage(
+                    model = months[index].image,
                     contentDescription = "",
                     modifier = Modifier
                         .size(450.dp)
@@ -145,7 +183,7 @@ fun CalanderImgsScreen() {
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun CalanderScreenPrv() {
-    CalanderImgsScreen()
+    CalanderImgsScreen(null!!)
 }
 
 

@@ -1,0 +1,40 @@
+{
+  "name": "Dec",
+  "year": 2023,
+  "lang": "en",
+  "month": 12,
+  "festivals": {
+    "1": [
+      "Diwali"
+    ],
+    "15": [
+      "Kartika Purnima",
+      "Guru Jayanti"
+    ],
+    "20": [
+      "Kartika Purnima",
+      "Guru Jayanti"
+    ],
+    "21": [
+      "Kartika Purnima",
+      "Guru Jayanti"
+    ],
+    "25": [
+      "Kartika Purnima",
+      "Guru Jayanti"
+    ]
+  },
+  "govtHolidays": {
+    "2": "Gandhi Jayanti", "18": "Cristmas"
+  },
+  "lunarDays": {
+    "5": 1,
+    "14": 2,
+    "23": 3,
+    "29": 4
+  },
+  "muhurata": {
+    "7": "Auspicious Wedding Muhurata",
+    "21": "Griha Pravesh Muhurata"
+  }
+}

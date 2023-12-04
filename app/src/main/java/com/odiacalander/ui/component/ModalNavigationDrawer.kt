@@ -1,6 +1,5 @@
 package com.odiacalander.ui.component
 
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.Composable

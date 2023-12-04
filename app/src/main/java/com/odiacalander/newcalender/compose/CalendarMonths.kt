@@ -1,7 +1,8 @@
 package com.odiacalander.newcalender.compose
 
 
-
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -9,15 +10,22 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.odiacalander.newcalender.core.CalendarDay
 import com.odiacalander.newcalender.core.CalendarMonth
+import com.odiacalander.ui.theme.color1
+import com.odiacalander.ui.theme.color7
 
 @Suppress("FunctionName")
 internal fun LazyListScope.CalendarMonths(
@@ -34,6 +42,7 @@ internal fun LazyListScope.CalendarMonths(
         count = monthCount,
         key = { offset -> monthData(offset).yearMonth },
     ) { offset ->
+
         val month = monthData(offset)
         val fillHeight = when (contentHeightMode) {
             ContentHeightMode.Wrap -> false
@@ -50,7 +59,7 @@ internal fun LazyListScope.CalendarMonths(
                         } else {
                             Modifier.wrapContentHeight()
                         },
-                    ),
+                    ).padding(6.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 monthHeader?.invoke(this, month)
@@ -65,6 +74,7 @@ internal fun LazyListScope.CalendarMonths(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .then(if (fillHeight) Modifier.weight(1f) else Modifier.wrapContentHeight()),
+                                horizontalArrangement = Arrangement.SpaceAround
                             ) {
                                 for (day in week) {
                                     Box(
@@ -78,6 +88,14 @@ internal fun LazyListScope.CalendarMonths(
                             }
                         }
                     }
+                }
+                Box{
+                    Text(
+                        text = "Festivals", fontSize = 20.sp, color = color1, modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = color7)
+                            .padding(top = 5.dp, bottom = 5.dp), textAlign = TextAlign.Center
+                    )
                 }
                 monthFooter?.invoke(this, month)
             }

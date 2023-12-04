@@ -1,5 +1,6 @@
 package com.odiacalander.newcalender.compose
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.gestures.ScrollScope
@@ -24,7 +25,6 @@ import com.odiacalander.newcalender.data.checkDateRange
 import com.odiacalander.newcalender.data.getCalendarMonthData
 import com.odiacalander.newcalender.data.getMonthIndex
 import com.odiacalander.newcalender.data.getMonthIndicesCount
-import com.odiacalander.util.DataManager.getMonthIndex
 import java.time.DayOfWeek
 import java.time.YearMonth
 
@@ -44,6 +44,7 @@ fun rememberCalendarState(
     firstVisibleMonth: YearMonth = startMonth,
     firstDayOfWeek: DayOfWeek = firstDayOfWeekFromLocale(),
     outDateStyle: OutDateStyle = OutDateStyle.EndOfRow,
+    context: Context = null!!
 ): CalendarState {
     return rememberSaveable(saver = CalendarState.Saver) {
         CalendarState(
@@ -53,6 +54,7 @@ fun rememberCalendarState(
             firstVisibleMonth = firstVisibleMonth,
             outDateStyle = outDateStyle,
             visibleItemState = null,
+            context = context
         )
     }
 }
@@ -76,6 +78,7 @@ class CalendarState internal constructor(
     firstVisibleMonth: YearMonth,
     outDateStyle: OutDateStyle,
     visibleItemState: VisibleItemState?,
+    context: Context
 ) : ScrollableState {
 
     /** Backing state for [startMonth] */
@@ -191,6 +194,7 @@ class CalendarState internal constructor(
             offset = offset,
             firstDayOfWeek = this.firstDayOfWeek,
             outDateStyle = this.outDateStyle,
+            context = context
         ).calendarMonth
     }
 
@@ -261,6 +265,7 @@ class CalendarState internal constructor(
                     it.firstDayOfWeek,
                     it.outDateStyle,
                     visibleItemState,
+                    null
                 )
             },
             restore = {
@@ -271,6 +276,7 @@ class CalendarState internal constructor(
                     firstDayOfWeek = it[3] as DayOfWeek,
                     outDateStyle = it[4] as OutDateStyle,
                     visibleItemState = it[5] as VisibleItemState,
+                    context = it[6] as Context
                 )
             },
         )

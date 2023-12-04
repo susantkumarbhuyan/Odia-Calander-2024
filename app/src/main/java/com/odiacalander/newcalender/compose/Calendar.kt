@@ -4,7 +4,6 @@ package com.odiacalander.newcalender.compose
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
@@ -87,7 +86,6 @@ private fun Calendar(
     monthFooter: (@Composable ColumnScope.(CalendarMonth) -> Unit)?,
     monthContainer: (@Composable LazyItemScope.(CalendarMonth, container: @Composable () -> Unit) -> Unit)?,
 ) {
-
     LazyRow(
         modifier = modifier,
         state = state.listState,
@@ -95,6 +93,7 @@ private fun Calendar(
         userScrollEnabled = userScrollEnabled,
         contentPadding = contentPadding,
     ) {
+
         CalendarMonths(
             monthCount = state.monthIndexCount,
             monthData = { offset -> state.store[offset] },

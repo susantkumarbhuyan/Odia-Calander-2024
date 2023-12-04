@@ -14,4 +14,26 @@
     <string name="saturday" translatable="false">ଶନି</string>
     <string name="sunday" translatable="false">ରବି</string>
 
+
+    <!-- months-->
+    <string name="January">ଜାନୁଆରୀ</string>
+    <string name="February">ଫେବୃଆରୀ</string>
+    <string name="March">ମାର୍ଚ୍</string>
+    <string name="April">अप्रैल</string>
+    <string name="May">ମେ</string>
+    <string name="June">ଜୁନ୍</string>
+    <string name="July">ଜୁଲାଇ</string>
+    <string name="August">ଅଗଷ୍ଟ</string>
+    <string name="September">ସେପ୍ଟେମ୍ବର</string>
+    <string name="October">ଅକ୍ଟୋବର</string>
+    <string name="November">ନଭେମ୍ବର</string>
+    <string name="December">ଡିସେମ୍ବର</string>
+
+    <!--    home_items-->
+    <string name="Calendar" >Calendar</string>
+    <string name="Festivals" >ପର୍ବ</string>
+    <string name="GovtHolidays" >ସରକାରୀ ଛୁଟିଆ</string>
+    <string name="Muhurat" >ମୁହୁର୍ତ</string>
+    <string name="Horoscope" >ରାଶିଫଳ</string>
+
 </resources>
