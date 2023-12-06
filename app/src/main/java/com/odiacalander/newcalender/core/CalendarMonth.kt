@@ -1,9 +1,7 @@
 package com.odiacalander.newcalender.core
 
 
-
 import androidx.compose.runtime.Immutable
-import com.odiacalander.newdataclasses.NewMonth
 import java.io.Serializable
 import java.time.YearMonth
 
@@ -17,7 +15,7 @@ import java.time.YearMonth
 data class CalendarMonth(
     val yearMonth: YearMonth,
     val weekDays: List<List<CalendarDay>>,
-    val monthData:NewMonth
+    val newMonth: NewMonth?
 ) : Serializable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -44,5 +42,12 @@ data class CalendarMonth(
                 "first = ${weekDays.first().first()}, " +
                 "last = ${weekDays.last().last()} " +
                 "} "
+    }
+    fun copy(newMonth: NewMonth): CalendarMonth{
+        return CalendarMonth(
+            yearMonth = yearMonth,
+            weekDays = weekDays.map { weeks -> weeks.map { date -> date.copy(newMonth) } },
+            newMonth = newMonth
+        )
     }
 }

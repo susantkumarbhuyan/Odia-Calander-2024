@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
-import com.odiacalander.util.DarkThemePreference
-import com.odiacalander.util.PreferenceUtil
+import com.odiacalander.core.util.DarkThemePreference
+import com.odiacalander.core.util.PreferenceUtil
 
 val LocalDarkTheme = compositionLocalOf { DarkThemePreference() }
 val LocalDynamicColorSwitch = compositionLocalOf { false }

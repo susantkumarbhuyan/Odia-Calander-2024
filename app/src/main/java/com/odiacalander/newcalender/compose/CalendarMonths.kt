@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +27,7 @@ import com.odiacalander.newcalender.core.CalendarDay
 import com.odiacalander.newcalender.core.CalendarMonth
 import com.odiacalander.ui.theme.color1
 import com.odiacalander.ui.theme.color7
+import com.odiacalander.core.util.CalendarManager
 
 @Suppress("FunctionName")
 internal fun LazyListScope.CalendarMonths(
@@ -42,8 +44,10 @@ internal fun LazyListScope.CalendarMonths(
         count = monthCount,
         key = { offset -> monthData(offset).yearMonth },
     ) { offset ->
+        val context = LocalContext.current
+        val m1 = CalendarManager.loadMonthDetailsFromDB(context)
 
-        val month = monthData(offset)
+        val month = monthData(offset).copy(newMonth = m1)
         val fillHeight = when (contentHeightMode) {
             ContentHeightMode.Wrap -> false
             ContentHeightMode.Fill -> true
@@ -59,7 +63,8 @@ internal fun LazyListScope.CalendarMonths(
                         } else {
                             Modifier.wrapContentHeight()
                         },
-                    ).padding(6.dp),
+                    )
+                    .padding(6.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 monthHeader?.invoke(this, month)
@@ -89,7 +94,7 @@ internal fun LazyListScope.CalendarMonths(
                         }
                     }
                 }
-                Box{
+                Box {
                     Text(
                         text = "Festivals", fontSize = 20.sp, color = color1, modifier = Modifier
                             .fillMaxWidth()

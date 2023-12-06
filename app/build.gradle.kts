@@ -1,10 +1,9 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
-    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
 android {
@@ -67,8 +66,6 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("com.google.code.gson:gson:2.10")
-    implementation(libs.play.services.maps)
-    implementation(libs.androidx.constraintlayout)
 
     val appcompatVersion = "1.7.0-alpha03"
 
@@ -78,8 +75,6 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     //MMKV (Ultrafast Key-Value storage)
     implementation("com.google.android.gms:play-services-ads:22.5.0")
-    //Core libs for the app
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-beta02")
 
     val lifecycle_version = "2.6.2"
     // ViewModel
@@ -88,8 +83,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.49")
+    kapt("com.google.dagger:hilt-android-compiler:2.49")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
 //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -106,6 +102,11 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+
+    val work_version = "2.9.0"
+
+    // (Java only)
+    implementation("androidx.work:work-runtime:$work_version")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation(libs.bundles.core)

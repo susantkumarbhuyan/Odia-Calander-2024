@@ -1,10 +1,6 @@
 package com.odiacalander.newcalender.data
 
 
-import android.content.Context
-import com.odiacalander.util.getCurrentDate
-import com.odiacalander.util.getCurrentMonth
-import com.odiacalander.util.getCurrentYear
 import com.odiacalander.newcalender.core.CalendarDay
 import com.odiacalander.newcalender.core.CalendarMonth
 import com.odiacalander.newcalender.core.DayPosition
@@ -13,8 +9,6 @@ import com.odiacalander.newcalender.core.atStartOfMonth
 import com.odiacalander.newcalender.core.nextMonth
 import com.odiacalander.newcalender.core.previousMonth
 import com.odiacalander.newcalender.core.yearMonth
-import com.odiacalander.newdataclasses.NewDayData
-import com.odiacalander.util.CalendarManager
 import java.time.DayOfWeek
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
@@ -22,10 +16,9 @@ import java.time.temporal.ChronoUnit
 data class MonthData internal constructor(
     private val month: YearMonth,
     private val inDays: Int,
-    private val outDays: Int,
-    private val context: Context
+    private val outDays: Int
 ) {
-    private val monthData = CalendarManager.loadMonthDetailsFromDB(context)
+
     private val totalDays = inDays + month.lengthOfMonth() + outDays
 
     private val firstDay = month.atStartOfMonth().minusDays(inDays.toLong())
@@ -39,8 +32,7 @@ data class MonthData internal constructor(
     val calendarMonth =
         CalendarMonth(
             month,
-            rows.map { week -> week.map { dayOffset -> getDay(dayOffset) } },
-            monthData
+            rows.map { week -> week.map { dayOffset -> getDay(dayOffset) } }, null
         )
 
     private fun getDay(dayOffset: Int): CalendarDay {
@@ -51,15 +43,7 @@ data class MonthData internal constructor(
             nextMonth -> DayPosition.OutDate
             else -> throw IllegalArgumentException("Invalid date: $date in month: $month")
         }
-        val cDate = date.dayOfMonth.toString()
-        val dayData = NewDayData(
-            monthData.festivals[cDate].orEmpty(),
-            isGovtHoliday = monthData.govtHolidays.containsKey(cDate) ,
-            monthData.lunarDays[cDate],
-            isCurrentData = (date.year == getCurrentYear() && date.yearMonth.monthValue == getCurrentMonth() && cDate == getCurrentDate()),
-            isSunday =  arrayOf("SUNDAY").contains(date.dayOfWeek.name)
-        )
-        return CalendarDay(date, position, dayData)
+        return CalendarDay(date, position, null)
     }
 }
 
@@ -67,8 +51,7 @@ fun getCalendarMonthData(
     startMonth: YearMonth,
     offset: Int,
     firstDayOfWeek: DayOfWeek,
-    outDateStyle: OutDateStyle,
-    context: Context
+    outDateStyle: OutDateStyle
 ): MonthData {
     val month = startMonth.plusMonths(offset.toLong())
     val firstDay = month.atStartOfMonth()
@@ -81,7 +64,7 @@ fun getCalendarMonthData(
         }
         return@let endOfRowDays + endOfGridDays
     }
-    return MonthData(month, inDays, outDays, context)
+    return MonthData(month, inDays, outDays)
 }
 
 

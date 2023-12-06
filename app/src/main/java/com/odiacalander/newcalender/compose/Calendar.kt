@@ -102,7 +102,7 @@ private fun Calendar(
             monthHeader = monthHeader,
             monthBody = monthBody,
             monthFooter = monthFooter,
-            monthContainer = monthContainer,
+            monthContainer = monthContainer
         )
     }
 }
