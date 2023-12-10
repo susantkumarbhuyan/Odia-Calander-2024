@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -52,12 +53,21 @@ import coil.compose.AsyncImage
 import com.odiacalander.models.Month
 import com.odiacalander.core.util.getMonthIndexId
 import com.odiacalander.core.util.localeMonths
+import com.odiacalander.core.util.localeYears
+import com.odiacalander.models.states.CalendarImgState
 import com.odiacalander.ui.component.CalendarReset
+import com.odiacalander.ui.viewmodels.CalendarImgViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun CalanderImgsScreen( months: List<Month>) {
+fun CalendarImgsScreen(viewModel: CalendarImgViewModel) {
+
+    val monthList = remember {
+        mutableStateOf<List<Month>>(emptyList())
+    }
+
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -66,7 +76,7 @@ fun CalanderImgsScreen( months: List<Month>) {
     val pagerState = rememberPagerState(
         initialPage = initialPage
     ) {
-        months.size
+        monthList.value.size
     }
     Scaffold(topBar = {
         BuildTopBar(scrollBehavior) {
@@ -85,13 +95,29 @@ fun CalanderImgsScreen( months: List<Month>) {
             }
         }
     ) {
-        CalenderImgComp(modifier = Modifier.padding(it), pagerState = pagerState, months = months)
+        when (val response = viewModel.response.value) {
+            is CalendarImgState.Success -> {
+                monthList.value = response.data
+                CalenderImgComp(
+                    modifier = Modifier.padding(it),
+                    pagerState = pagerState,
+                    months = response.data
+                )
+            }
+
+            CalendarImgState.Loading -> CircularProgressIndicator()
+            is CalendarImgState.Failure -> Text(text = "${response.msg}")
+
+            CalendarImgState.Empty -> TODO()
+
+        }
+
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun CalenderImgComp(modifier: Modifier, pagerState: PagerState, months: List<Month> ) {
+private fun CalenderImgComp(modifier: Modifier, pagerState: PagerState, months: List<Month>) {
 //    val months = monthList()
 
 
@@ -130,7 +156,11 @@ private fun CalenderImgComp(modifier: Modifier, pagerState: PagerState, months: 
                     Icon(imageVector = Icons.Outlined.KeyboardArrowLeft, contentDescription = "")
                 }
                 Text(
-                    text = " ${stringResource(localeMonths[months[index].monthId]!!)} - ${months[index].year} ",
+                    text = " ${stringResource(localeMonths[months[index].monthId]!!)} - ${
+                        stringResource(
+                            id = localeYears[months[index].year]!!
+                        )
+                    } ",
                     fontSize = 23.sp,
                     modifier = Modifier.padding(6.dp)
                 )
@@ -183,7 +213,7 @@ private fun CalenderImgComp(modifier: Modifier, pagerState: PagerState, months: 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun CalanderScreenPrv() {
-    CalanderImgsScreen(null!!)
+    // CalendarImgsScreen(null!!)
 }
 
 

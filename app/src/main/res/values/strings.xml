@@ -42,6 +42,47 @@
     <string name="GovtHolidays">Govt Holidays</string>
     <string name="Muhurat">Muhurat</string>
     <string name="Horoscope">Horoscope</string>
-    <string name="title_activity_maps">MapsActivity</string>
+
+    <!--dates-->
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="ten">10</string>
+    <string name="eleven">11</string>
+    <string name="twelve">12</string>
+    <string name="thirteen">13</string>
+    <string name="fourteen">14</string>
+    <string name="fifteen">15</string>
+    <string name="sixteen">16</string>
+    <string name="seventeen">17</string>
+    <string name="eighteen">18</string>
+    <string name="nineteen">19</string>
+    <string name="twenty">20</string>
+    <string name="twenty_one">21</string>
+    <string name="twenty_two">22</string>
+    <string name="twenty_three">23</string>
+    <string name="twenty_four">24</string>
+    <string name="twenty_five">25</string>
+    <string name="twenty_six">26</string>
+    <string name="twenty_seven">27</string>
+    <string name="twenty_eight">28</string>
+    <string name="twenty_nine">29</string>
+    <string name="thirty">30</string>
+    <string name="thirty_one">31</string>
+
+    //year
+    <string name="year2023">2023</string>
+    <string name="year2024">2024</string>
+    <string name="year2025">2025</string>
+    <string name="year2026">2026</string>
+
+    //datePrefix
+    <string name="datePrefix">Dt</string>
 
 </resources>

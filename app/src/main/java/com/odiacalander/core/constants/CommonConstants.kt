@@ -19,3 +19,8 @@ val horoscopeIcons = mapOf(
     "Aquarius" to "https://pcvarkr.hs.llnwd.net/v1/pnc/images/sign_aquarius.png",
     "Pisces" to "https://pcvarkr.hs.llnwd.net/v1/pnc/images/sign_pisces.png"
 )
+
+const val NOTIFICATION_CHANNEL_ID = "Festivals"
+
+const val DUMMY_CALENDAR_IMG =
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvoGo6k_NmoNBzdgPy51dWxIMzX8VJnMAA4sYD87zdvnrvjTn5j3fuN69M7AYNzZXLGBFDPSL374Iepm0qmEv0NunGyyXooXo59M6bbP6idMTjughIIjhSAOEM39BAvh11QdBk0CSnzYjDsR_goNVyLW-coNq-S3yEoepEhyPgNJywsSGKq0L9u6ATIqU/s16000/November-2023-odia-calendar.webp"

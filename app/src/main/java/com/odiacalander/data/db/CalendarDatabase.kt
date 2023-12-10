@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.odiacalander.data.db.entity.MonthDetailsEntity
-import com.odiacalander.data.db.entity.MonthImgsEntity
+import com.odiacalander.models.entity.MonthDetailsEntity
+import com.odiacalander.models.entity.MonthImgsEntity
 
-@Database(entities = [MonthImgsEntity::class, MonthDetailsEntity::class], version = 2, exportSchema = false)
+@Database(entities = [MonthImgsEntity::class, MonthDetailsEntity::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class CalendarDatabase : RoomDatabase() {
 

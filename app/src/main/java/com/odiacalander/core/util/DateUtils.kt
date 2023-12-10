@@ -3,29 +3,33 @@ package com.odiacalander.core.util
 import androidx.compose.ui.graphics.Color
 import com.odiacalander.R
 import com.odiacalander.models.Week
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-fun getCurrentDate(): String {
+fun getCurrentDate(): Int {
     val current = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("dd")
-    return current.format(formatter)
+    return current.dayOfMonth
 }
 
 fun getCurrentMonth(): Int {
     val current = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("MM")
-    return current.format(formatter).toInt()
+    current.month.name
+    return current.month.value
 }
 
 fun getCurrentYear(): Int {
     val current = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("uuuu")
-    return current.format(formatter).toInt()
+    return current.year
 }
+fun getCurrentWeek(): Int {
+    val current = LocalDateTime.now()
 
+    return current.dayOfWeek.value
+}
 fun getCurrentMonthName(): String {
     val current = LocalDateTime.now()
+
     val formatter = DateTimeFormatter.ofPattern("MMMM")
     return current.format(formatter)
 }
@@ -43,7 +47,6 @@ val localeMonths = mapOf(
     10 to R.string.October,
     11 to R.string.November,
     12 to R.string.December
-
 )
 
 val weeks = listOf(
@@ -86,6 +89,61 @@ fun getDateOrdinalSuffix(date: Int): String {
         else -> "$date" + "th"
     }
 }
+
+val localeDates = mapOf(
+    1 to R.string.one,
+    2 to R.string.two,
+    3 to R.string.three,
+    4 to R.string.four,
+    5 to R.string.five,
+    6 to R.string.six,
+    7 to R.string.seven,
+    8 to R.string.eight,
+    9 to R.string.nine,
+    10 to R.string.ten,
+    11 to R.string.eleven,
+    12 to R.string.twelve,
+    13 to R.string.thirteen,
+    14 to R.string.fourteen,
+    15 to R.string.fifteen,
+    16 to R.string.sixteen,
+    17 to R.string.seventeen,
+    18 to R.string.eighteen,
+    19 to R.string.nineteen,
+    20 to R.string.twenty,
+    21 to R.string.twenty_one,
+    22 to R.string.twenty_two,
+    23 to R.string.twenty_three,
+    24 to R.string.twenty_four,
+    25 to R.string.twenty_five,
+    26 to R.string.twenty_six,
+    27 to R.string.twenty_seven,
+    28 to R.string.twenty_eight,
+    29 to R.string.twenty_nine,
+    30 to R.string.thirty,
+    31 to R.string.thirty_one
+)
+
+val localeYears = mapOf(
+    2021 to R.string.year2023,
+    2022 to R.string.year2023,
+    2023 to R.string.year2023,
+    2024 to R.string.year2024,
+    2025 to R.string.year2025,
+    2026 to R.string.year2026
+)
+
+val lunarDays = listOf("ଅମାବାସ୍ୟା", "ପୂର୍ଣିମା", "ଏକାଦଶୀ", "ଏକାଦଶୀ")
+
+val fullWeeksNameOdia = mapOf(
+    1 to "ସୋମବାର",
+    2 to "ମଙ୍ଗଳବାର",
+    3 to "ବୁଧବାର",
+    4 to "ଗୁରୁବାର",
+    5 to "ଶୁକ୍ରବାର",
+    6 to "ସନିବାର",
+    7 to "ରବିବାର"
+)
 
 
 

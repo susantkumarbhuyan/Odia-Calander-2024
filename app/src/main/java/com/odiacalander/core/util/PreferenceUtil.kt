@@ -2,6 +2,7 @@ package com.odiacalander.core.util
 
 
 import android.os.Build
+import androidx.annotation.Keep
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -22,8 +23,7 @@ const val DARK_THEME_VALUE = "dark_theme_value"
 const val LANGUAGE = "language"
 const val NOTIFICATION = "notification"
 const val BLOG_DATA_LOADED = "blog_data_load"
-const val DIALY_HOSOSCOPE_ALT_NUMBER = "dailyHoroscopeAltNumber"
-const val SYSTEM_DEFAULT = 0
+const val SYSTEM_DEFAULT = 1
 private val BooleanPreferenceDefaults = mapOf(
     NOTIFICATION to true,
     BLOG_DATA_LOADED to false
@@ -36,7 +36,7 @@ private val IntPreferenceDefaults = mapOf(
 
 
 private val kv: MMKV = MMKV.defaultMMKV()
-
+@Keep
 object PreferenceUtil {
     fun String.getInt(default: Int = IntPreferenceDefaults.getOrElse(this) { 0 }): Int =
         kv.decodeInt(this, default)
@@ -59,7 +59,7 @@ object PreferenceUtil {
         BLOG_DATA_LOADED.getBoolean()
 
     fun getLanguageConfiguration(languageNumber: Int = kv.decodeInt(LANGUAGE)) =
-        languageMap.getOrElse(languageNumber) { "" }
+        languageMap.getOrElse(languageNumber) { "or" }
 
 
     private fun getLanguageNumberByCode(languageCode: String): Int =
@@ -72,16 +72,6 @@ object PreferenceUtil {
         )
         else LANGUAGE.getInt()
     }
-
-
-    fun getDailyHoroscopeAltNumber(): Int {
-        var altNum = kv.decodeInt(DIALY_HOSOSCOPE_ALT_NUMBER) + 1
-        if(altNum<0)
-            altNum= 235
-        kv.encode(DIALY_HOSOSCOPE_ALT_NUMBER, altNum)
-        return altNum
-    }
-
 
     private const val TAG = "PreferenceUtil"
 

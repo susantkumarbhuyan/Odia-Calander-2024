@@ -36,6 +36,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,8 +49,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.odiacalander.R
+import com.odiacalander.core.constants.DUMMY_CALENDAR_IMG
+import com.odiacalander.core.util.BLOG_DATA_LOADED
 import com.odiacalander.models.Month
 import com.odiacalander.models.getHomeItems
 import com.odiacalander.ui.common.LocalDarkTheme
@@ -59,18 +63,24 @@ import com.odiacalander.core.util.DarkThemePreference.Companion.OFF
 import com.odiacalander.core.util.DarkThemePreference.Companion.ON
 import com.odiacalander.core.util.PreferenceUtil
 import com.odiacalander.core.util.getCurrentDate
+import com.odiacalander.core.util.getCurrentMonth
 import com.odiacalander.core.util.getCurrentYear
 import com.odiacalander.core.util.getMonthIndexId
+import com.odiacalander.core.util.localeDates
 import com.odiacalander.core.util.localeMonths
+import com.odiacalander.core.util.localeYears
+import com.odiacalander.ui.viewmodels.CalendarImgViewModel
+import com.odiacalander.ui.viewmodels.HomeScreenViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(monthList: List<Month>, onClick: (route: String) -> Unit) {
+fun HomeScreen(onClick: (route: String) -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -105,7 +115,9 @@ fun HomeScreen(monthList: List<Month>, onClick: (route: String) -> Unit) {
                 NavigationDrawerItem(
                     label = { Text(text = "Drawer Item1") },
                     selected = false,
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        PreferenceUtil.updateValue(BLOG_DATA_LOADED, false)
+                    }
                 )
             }
         },
@@ -128,53 +140,57 @@ fun HomeScreen(monthList: List<Month>, onClick: (route: String) -> Unit) {
                     .fillMaxWidth()
                     .padding(it)
             ) {
-                if (monthList.isNotEmpty()) {
-                    Card(modifier = Modifier.padding(8.dp)) {
-                        Text(
-                            text = "${getCurrentDate()} - ${stringResource(localeMonths[monthList[getMonthIndexId()].monthId]!!)} - ${getCurrentYear()}",
-                            fontSize = 20.sp,
-                            modifier = Modifier.padding(10.dp)
-                        )
-                    }
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(3)
 
-                    ) {
-                        items(getHomeItems().size) { item ->
+                Card(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "${stringResource(id = localeDates[getCurrentDate()]!!)} - ${
+                            stringResource(
+                                localeMonths[getCurrentMonth()]!!
+                            )
+                        } - ${stringResource(localeYears[getCurrentYear()]!!)}",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                }
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3)
 
-                            ElevatedCard(
-                                elevation = CardDefaults.cardElevation(
-                                    defaultElevation = 2.dp
-                                ),
-                                modifier = Modifier
-                                    .clickable { onClick(getHomeItems()[item].route) }
-                                    .padding(8.dp)
-                                    .align(Alignment.CenterHorizontally)
+                ) {
+                    items(getHomeItems().size) { item ->
+
+                        ElevatedCard(
+                            elevation = CardDefaults.cardElevation(
+                                defaultElevation = 2.dp
+                            ),
+                            modifier = Modifier
+                                .clickable { onClick(getHomeItems()[item].route) }
+                                .padding(8.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxSize()
                             ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    AsyncImage(
-                                        model = if (item == 0) monthList[item].image else getHomeItems()[item].image,
-                                        modifier = Modifier
-                                            .size(70.dp)
-                                            .padding(start = 6.dp, top = 6.dp, end = 6.dp),
-                                        contentDescription = ""
-                                    )
+                                AsyncImage(
+                                    model = if (item == 0) DUMMY_CALENDAR_IMG else getHomeItems()[item].image,
+                                    modifier = Modifier
+                                        .size(70.dp)
+                                        .padding(start = 6.dp, top = 6.dp, end = 6.dp),
+                                    contentDescription = ""
+                                )
 
-                                    Text(
-                                        text = stringResource(id = if (item == 0) localeMonths[monthList[getMonthIndexId()].monthId]!! else getHomeItems()[item].title),
-                                        fontSize = 16.sp,
-                                        modifier = Modifier.padding(
-                                            start = 6.dp,
-                                            bottom = 6.dp,
-                                            end = 6.dp
-                                        ),
-                                    )
-                                }
+                                Text(
+                                    text = stringResource(id = if (item == 0) localeMonths[getCurrentMonth()]!! else getHomeItems()[item].title),
+                                    fontSize = 16.sp,
+                                    modifier = Modifier.padding(
+                                        start = 6.dp,
+                                        bottom = 6.dp,
+                                        end = 6.dp
+                                    ),
+                                )
                             }
                         }
+
                     }
                 }
             }

@@ -13,27 +13,15 @@ import com.odiacalander.core.util.AdsManager
 
 
 @Composable
-fun MuhurthaScreen() {
-    var adStatus by remember {
-        mutableStateOf(false)
-    }
+fun MuhurthaScreen(adStatus :(Boolean) -> Unit) {
+
     val context = LocalContext.current
     Column {
         Text(text = "MuhurthaScreen")
         Button(onClick = {
-            if (adStatus) {
-                AdsManager.showInterstitialAd()
-                adStatus = false
-            } else {
-                AdsManager.loadInterstitialAd(context) {
-                    adStatus = it
-                }
-            }
+            adStatus.invoke(true)
         }) {
-            if (adStatus)
                 Text(text = "Show Ads")
-            else
-                Text(text = "load Ads")
         }
     }
 

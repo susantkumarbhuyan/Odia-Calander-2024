@@ -7,16 +7,27 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -42,11 +53,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.odiacalander.core.constants.AMABASYA_ID
 import com.odiacalander.core.constants.FIRST_AKADASHI_ID
 import com.odiacalander.core.constants.PURNIMA_ID
 import com.odiacalander.R
 import com.odiacalander.core.constants.SECOND_AKADASHI_ID
+import com.odiacalander.core.util.localeDates
 import com.odiacalander.newcalender.compose.CalendarState
 import com.odiacalander.newcalender.compose.HorizontalCalendar
 import com.odiacalander.newcalender.compose.rememberCalendarState
@@ -63,7 +76,11 @@ import com.odiacalander.ui.theme.color4
 import com.odiacalander.ui.theme.color6
 import com.odiacalander.ui.theme.peach1
 import com.odiacalander.core.util.localeMonths
+import com.odiacalander.core.util.localeYears
 import com.odiacalander.core.util.weeks
+import com.odiacalander.newcalender.core.NewMonth
+import com.odiacalander.ui.viewmodels.CalendarViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.YearMonth
@@ -79,7 +96,6 @@ fun CalendarScreen() {
     val startMonth = remember { currentMonth.minusMonths(adjacentMonths) }
     val endMonth = remember { currentMonth.plusMonths(adjacentMonths) }
     val daysOfWeek = remember { daysOfWeek() }
-    val context = LocalContext.current
     val state = rememberCalendarState(
         startMonth = startMonth,
         endMonth = endMonth,
@@ -95,78 +111,79 @@ fun CalendarScreen() {
                 }
             }
         }
-    },
-        floatingActionButton = {
-            CalendarReset {
-                scope.launch {
-                    state.animateScrollToMonth(currentMonth)
-                }
+    }, floatingActionButton = {
+        CalendarReset {
+            scope.launch {
+                state.animateScrollToMonth(currentMonth)
             }
         }
-    ) {
-        LocalCalendar(modifier = Modifier.padding(it), state = state, daysOfWeek = daysOfWeek)
+    }) {
+        LocalCalendar(
+            modifier = Modifier.padding(it), state = state, daysOfWeek = daysOfWeek, scope = scope
+        )
     }
 
 }
 
 
 @Composable
-private fun LocalCalendar(modifier: Modifier, state: CalendarState, daysOfWeek: List<DayOfWeek>) {
-
-
+private fun LocalCalendar(
+    modifier: Modifier, state: CalendarState, daysOfWeek: List<DayOfWeek>, scope: CoroutineScope
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White),
     ) {
 
-        HorizontalCalendar(
-            modifier = Modifier.testTag("Calendar"),
+        HorizontalCalendar(modifier = Modifier.testTag("Calendar"),
             state = state,
             dayContent = { day ->
                 Day(day)
             },
             monthHeader = {
-                MonthName(it)
+                MonthName(it, state, scope)
                 MonthHeader(daysOfWeek = daysOfWeek)
             },
             monthFooter = {
                 MonthFooter(it)
-            }
-        )
+            })
 
     }
 }
 
 @Composable
 fun MonthFooter(calendarMonth: CalendarMonth) {
-    val festivals = calendarMonth.newMonth?.festivals?.values?.flatten()
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 7.dp, end = 7.dp)
-    ) {
-        if (festivals != null) {
-            items(festivals.size) { item ->
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = festivals[item],
-                    fontSize = 20.sp,
-                    color = color1
-                )
-            }
-        }
-    }
+    if (calendarMonth.newMonth != null)
+        FestivalList(calendarMonth.newMonth)
 }
 
 @Composable
-private fun MonthName(calendarMonth: CalendarMonth) {
-    Text(
-        text = "${stringResource(localeMonths[calendarMonth.yearMonth.month.value]!!)} ${calendarMonth.yearMonth.year}",
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        color = color2
-    )
+private fun MonthName(calendarMonth: CalendarMonth, state: CalendarState, scope: CoroutineScope) {
+    Row {
+        IconButton(onClick = {
+            scope.launch {
+                state.animateScrollToMonth(calendarMonth.yearMonth.minusMonths(1))
+            }
+        }) {
+            Icon(imageVector = Icons.Outlined.KeyboardArrowLeft, contentDescription = "")
+        }
+        Text(
+            text = "${stringResource(localeMonths[calendarMonth.yearMonth.month.value]!!)} ${
+                stringResource(
+                    localeYears[calendarMonth.yearMonth.year]!!
+                )
+            }", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = color2
+        )
+        IconButton(onClick = {
+            scope.launch {
+                state.animateScrollToMonth(calendarMonth.yearMonth.plusMonths(1))
+            }
+        }) {
+            Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "")
+        }
+    }
+
 }
 
 @Composable
@@ -203,7 +220,7 @@ private fun Day(day: CalendarDay) {
         .padding(2.dp)
         .size(50.dp)
         .border(
-            width = if (day.dayData?.isCurrentData == true) 4.dp else 0.dp,
+            width = if (day.dayData?.isCurrentData == true) 2.dp else 0.dp,
             color = color3,
             shape = RoundedCornerShape(8.dp)
         )
@@ -215,10 +232,8 @@ private fun Day(day: CalendarDay) {
                 .aspectRatio(1f) // This is important for square-sizing!
                 .testTag("MonthDay")
                 .background(
-                    if (day.dayData?.isGovtHoliday == true)
-                        color6
-                    else
-                        color4
+                    if (day.dayData?.isGovtHoliday == true) color6
+                    else color4
                 )
                 .clickable(
                     enabled = true,
@@ -232,11 +247,10 @@ private fun Day(day: CalendarDay) {
             Column {
 
                 PopupWindowDialog(
-                    openDialog = openDialog.value,
-                    holidays = day.dayData?.festivals
+                    openDialog = openDialog.value, holidays = day.dayData?.festivals
                 ) { openDialog.value = false }
                 Text(
-                    text = day.date.dayOfMonth.toString(),
+                    text = stringResource(id = localeDates[day.date.dayOfMonth]!!),
                     color = if (day.dayData?.isSunday == true) Color.Red else Color.Black,
                     fontSize = 14.sp,
                 )
@@ -261,17 +275,15 @@ private fun Day(day: CalendarDay) {
                     )
 
                     FIRST_AKADASHI_ID -> Icon(
-                        painter = painterResource(id = R.drawable.dark_mode_24px),
-                        modifier = Modifier
-                            .size(20.dp),
+                        painter = painterResource(id = R.drawable.clear_night_24px_fill),
+                        modifier = Modifier.size(20.dp),
                         tint = color2,
                         contentDescription = ""
                     )
 
                     SECOND_AKADASHI_ID -> Icon(
-                        painter = painterResource(id = R.drawable.clear_night_24px_fill),
-                        modifier = Modifier
-                            .size(20.dp),
+                        painter = painterResource(id = R.drawable.dark_mode_24px),
+                        modifier = Modifier.size(20.dp),
                         tint = color2,
                         contentDescription = ""
                     )
@@ -284,6 +296,65 @@ private fun Day(day: CalendarDay) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun Example1Preview() {
-   // LocalCalendar(Modifier.padding(1.dp))
+    val map = mapOf(
+        "23" to listOf("Gandi Jayanti", "Komari Purnima"),
+        "24" to listOf("Gandi Jayanti", "Komari Purnima"),
+        "1" to listOf("Gandi Jayanti", "Komari Purnima")
+    )
+    // FestivalList(festivals = map, emptyList())
 }
 
+@Composable
+fun FestivalList(newMonth: NewMonth) {
+    val festivals = newMonth.festivals
+    val highlightDays = newMonth.highlightDays
+    if (festivals != null) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            items(festivals.entries.toList()) { (date, festivalList) ->
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    elevation = CardDefaults.cardElevation()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = "${stringResource(id = R.string.datePrefix)}: ${stringResource(id = localeDates[date.toInt()]!!)}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        festivalList.forEachIndexed { index, festival ->
+                            if (festival != null) {
+                                if (highlightDays != null && highlightDays.contains(date.toInt())) {
+                                    Text(
+                                        text = festival,
+                                        style = if (index == 0) MaterialTheme.typography.bodyLarge else MaterialTheme.typography.bodyMedium,
+                                        color = if (index == 0) Color.Red else MaterialTheme.colorScheme.onSurface
+                                    )
+                                } else {
+                                    Text(
+                                        text = festival.ifEmpty { "" },
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

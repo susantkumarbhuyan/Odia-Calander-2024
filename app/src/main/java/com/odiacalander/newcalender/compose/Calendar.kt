@@ -57,6 +57,7 @@ fun HorizontalCalendar(
     monthBody: (@Composable ColumnScope.(CalendarMonth, content: @Composable () -> Unit) -> Unit)? = null,
     monthFooter: (@Composable ColumnScope.(CalendarMonth) -> Unit)? = null,
     monthContainer: (@Composable LazyItemScope.(CalendarMonth, container: @Composable () -> Unit) -> Unit)? = null,
+
 ) = Calendar(
     modifier = modifier,
     state = state,
@@ -69,6 +70,7 @@ fun HorizontalCalendar(
     monthFooter = monthFooter,
     monthContainer = monthContainer,
     contentPadding = contentPadding,
+
 )
 
 
@@ -102,7 +104,7 @@ private fun Calendar(
             monthHeader = monthHeader,
             monthBody = monthBody,
             monthFooter = monthFooter,
-            monthContainer = monthContainer
+            monthContainer = monthContainer,
         )
     }
 }

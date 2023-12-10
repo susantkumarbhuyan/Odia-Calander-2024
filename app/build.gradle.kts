@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -27,13 +26,21 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+//        debug {
+//            isMinifyEnabled = true
+//            isShrinkResources = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -61,55 +68,46 @@ kapt {
 }
 
 dependencies {
+    //permission
+    implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
     //webscraping
-    implementation("org.jsoup:jsoup:1.17.1")
-
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("com.google.code.gson:gson:2.10")
-
-    val appcompatVersion = "1.7.0-alpha03"
+    implementation(libs.jsoup)
+    implementation(libs.coil.compose)
+    implementation(libs.gson)
 
     //lang-localization
-    implementation("androidx.appcompat:appcompat:$appcompatVersion")
+    implementation(libs.appcompat)
 //Splash Api
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    //MMKV (Ultrafast Key-Value storage)
-    implementation("com.google.android.gms:play-services-ads:22.5.0")
-
-    val lifecycle_version = "2.6.2"
+    implementation(libs.splashscreen)
+//google ads
+    implementation(libs.play.services.ads)
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation(libs.lifecycle.viewmodel.ktx)
     // ViewModel utilities for Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
-
+    implementation(libs.lifecycle.viewmodel.compose)
     //hilt
-    implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-android-compiler:2.49")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     //coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
 
     //RoomDB
-    val room_version = "2.6.1"
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    // WorkManager
+    implementation(libs.workManager)
 
-    val work_version = "2.9.0"
-
-    // (Java only)
-    implementation("androidx.work:work-runtime:$work_version")
-
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.bundles.core)
+    //MMKV (Ultrafast Key-Value storage)
     implementation(libs.mmkv)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

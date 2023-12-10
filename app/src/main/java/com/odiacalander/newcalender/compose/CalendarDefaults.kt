@@ -49,7 +49,7 @@ private fun CalendarSnapLayoutInfoProvider(
      * In compose 1.3, the default was single page snapping (zero), but this changed
      * in compose 1.4 to decayed page snapping which is not great for calendar usage.
      */
-    override fun Density.calculateApproachOffset(initialVelocity: Float): Float = 0f
+    override fun calculateApproachOffset(initialVelocity: Float): Float = 0f
 }
 
 @OptIn(ExperimentalFoundationApi::class)

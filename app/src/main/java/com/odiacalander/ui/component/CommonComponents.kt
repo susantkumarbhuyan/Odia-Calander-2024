@@ -47,6 +47,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.core.os.LocaleListCompat
 import com.odiacalander.MainActivity
 import com.odiacalander.R
+import com.odiacalander.core.util.CommonUtils
 import com.odiacalander.ui.theme.color2
 import com.odiacalander.ui.theme.color3
 import com.odiacalander.ui.theme.color8
@@ -73,7 +74,7 @@ fun CustomDropDownMenu() {
     var expanded by remember { mutableStateOf(false) }
     var language by remember { mutableIntStateOf(PreferenceUtil.getLanguageNumber()) }
     val scope = rememberCoroutineScope()
-    suspend fun setLanguage(selectedLanguage: Int) {
+     fun setLanguage(selectedLanguage: Int) {
         language = selectedLanguage
         PreferenceUtil.encodeInt(LANGUAGE, language)
         MainActivity.setLanguage(getLanguageConfiguration())
@@ -124,9 +125,10 @@ fun CustomDropDownMenu() {
             DropdownMenuItem(
                 text = { Text("CheckAppLang") },
                 onClick = {
+
                     Toast.makeText(
                         context,
-                        LocaleListCompat.getAdjustedDefault()[0]?.toLanguageTag().toString(),
+                        if(CommonUtils.isInternetConnected(context)) "Online" else "Offline",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

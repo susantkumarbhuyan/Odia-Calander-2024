@@ -30,10 +30,52 @@
     <string name="December">ଡିସେମ୍ବର</string>
 
     <!--    home_items-->
-    <string name="Calendar" >Calendar</string>
-    <string name="Festivals" >ପର୍ବ</string>
-    <string name="GovtHolidays" >ସରକାରୀ ଛୁଟିଆ</string>
-    <string name="Muhurat" >ମୁହୁର୍ତ</string>
-    <string name="Horoscope" >ରାଶିଫଳ</string>
+    <string name="Calendar">କ୍ୟାଲେଣ୍ଡର</string>
+    <string name="Festivals">ପର୍ବପର୍ବାଣି</string>
+    <string name="GovtHolidays">ସରକାରୀ ଛୁଟି</string>
+    <string name="Muhurat">ମୁହୁର୍ତ</string>
+    <string name="Horoscope">ରାଶିଫଳ</string>
 
+
+    <!--dates-->
+    <string name="one">୧</string>
+    <string name="two">୨</string>
+    <string name="three">୩</string>
+    <string name="four">୪</string>
+    <string name="five">୫</string>
+    <string name="six">୬</string>
+    <string name="seven">୭</string>
+    <string name="eight">୮</string>
+    <string name="nine">୯</string>
+    <string name="ten">୧୦</string>
+    <string name="eleven">୧୧</string>
+    <string name="twelve">୧୨</string>
+    <string name="thirteen">୧୩</string>
+    <string name="fourteen">୧୪</string>
+    <string name="fifteen">୧୫</string>
+    <string name="sixteen">୧୬</string>
+    <string name="seventeen">୧୭</string>
+    <string name="eighteen">୧୮</string>
+    <string name="nineteen">୧୯</string>
+    <string name="twenty">୨୦</string>
+    <string name="twenty_one">୨୧</string>
+    <string name="twenty_two">୨୨</string>
+    <string name="twenty_three">୨୩</string>
+    <string name="twenty_four">୨୪</string>
+    <string name="twenty_five">୨୫</string>
+    <string name="twenty_six">୨୬</string>
+    <string name="twenty_seven">୨୭</string>
+    <string name="twenty_eight">୨୮</string>
+    <string name="twenty_nine">୨୯</string>
+    <string name="thirty">୩୦</string>
+    <string name="thirty_one">୩୧</string>
+
+    //year
+    <string name="year2023">୨୦୨୩</string>
+    <string name="year2024">୨୦୨୪</string>
+    <string name="year2025">୨୦୨୫</string>
+    <string name="year2026">୨୦୨୬</string>
+
+    //datePrefix
+    <string name="datePrefix">ତା</string>
 </resources>

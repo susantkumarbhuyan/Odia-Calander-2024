@@ -30,10 +30,53 @@
     <string name="December">दिसम्बर</string>
 
     <!--    home_items-->
-    <string name="Calendar" >Calendar</string>
+    <string name="Calendar" >पंचांग</string>
     <string name="Festivals" >उत्सव</string>
     <string name="GovtHolidays" >सरकारी छुट्टियाँ</string>
     <string name="Muhurat" >मुहूर्त</string>
     <string name="Horoscope" >राशिफल</string>
 
+
+    <!--dates-->
+    <string name="one">१</string>
+    <string name="two">२</string>
+    <string name="three">३</string>
+    <string name="four">४</string>
+    <string name="five">५</string>
+    <string name="six">६</string>
+    <string name="seven">७</string>
+    <string name="eight">८</string>
+    <string name="nine">९</string>
+    <string name="ten">१०</string>
+    <string name="eleven">११</string>
+    <string name="twelve">१२</string>
+    <string name="thirteen">१३</string>
+    <string name="fourteen">१४</string>
+    <string name="fifteen">१५</string>
+    <string name="sixteen">१६</string>
+    <string name="seventeen">१७</string>
+    <string name="eighteen">१८</string>
+    <string name="nineteen">१९</string>
+    <string name="twenty">२०</string>
+    <string name="twenty_one">२१</string>
+    <string name="twenty_two">२२</string>
+    <string name="twenty_three">२३</string>
+    <string name="twenty_four">२४</string>
+    <string name="twenty_five">२५</string>
+    <string name="twenty_six">२६</string>
+    <string name="twenty_seven">२७</string>
+    <string name="twenty_eight">२८</string>
+    <string name="twenty_nine">२९</string>
+    <string name="thirty">३०</string>
+    <string name="thirty_one">३१</string>
+
+
+    //year
+    <string name="year2023">२०२३</string>
+    <string name="year2024">२०२४</string>
+    <string name="year2025">२०२५</string>
+    <string name="year2026">२०२७</string>
+
+    //datePrefix
+    <string name="datePrefix">दि</string>
 </resources>

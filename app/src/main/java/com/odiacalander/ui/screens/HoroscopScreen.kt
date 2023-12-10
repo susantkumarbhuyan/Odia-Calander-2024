@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.odiacalander.models.HoroscopeState
+import com.odiacalander.models.states.HoroscopeState
 import com.odiacalander.ui.theme.color1
 import com.odiacalander.ui.viewmodels.HoroscopeViewModel
 

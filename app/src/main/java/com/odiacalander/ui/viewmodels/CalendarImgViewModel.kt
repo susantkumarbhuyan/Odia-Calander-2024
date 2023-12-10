@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.odiacalander.data.CalenderRepository
+import com.odiacalander.models.states.CalendarImgState
 import com.odiacalander.models.states.HoroscopeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -13,22 +14,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HoroscopeViewModel @Inject constructor(private val repository: CalenderRepository) :
+class CalendarImgViewModel @Inject constructor(private val repository: CalenderRepository) :
     ViewModel() {
 
-    val horoscopeResponse: MutableState<HoroscopeState> = mutableStateOf(HoroscopeState.Empty)
+    val response: MutableState<CalendarImgState> = mutableStateOf(CalendarImgState.Empty)
 
     init {
-        getDailyHoroscope()
+        getMonthImgs()
     }
 
-    private fun getDailyHoroscope() = viewModelScope.launch {
-        repository.getHoroscope().onStart {
-            horoscopeResponse.value = HoroscopeState.Loading
+    private fun getMonthImgs() = viewModelScope.launch {
+        repository.getMonthImgs().onStart {
+            response.value = CalendarImgState.Loading
         }.catch {
-            horoscopeResponse.value = HoroscopeState.Failure(it)
+            response.value = CalendarImgState.Failure(it)
         }.collect {
-            horoscopeResponse.value = HoroscopeState.Success(it)
+            response.value = CalendarImgState.Success(it)
         }
     }
+
 }

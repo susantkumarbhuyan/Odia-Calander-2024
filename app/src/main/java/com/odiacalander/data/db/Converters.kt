@@ -37,4 +37,15 @@ class Converters {
     fun toIntString(value: Map<String, Int>): String {
         return Gson().toJson(value)
     }
+
+    @TypeConverter
+    fun fromListIntString(value: String): List<Int> {
+        val listType = object : TypeToken<List<Int>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun toListIntString(value: List<Int>): String {
+        return Gson().toJson(value)
+    }
 }

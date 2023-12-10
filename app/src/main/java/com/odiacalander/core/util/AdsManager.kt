@@ -31,37 +31,34 @@ object AdsManager {
         })
     }
 
-    fun showInterstitialAd() {
-        mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                // Called when a click is recorded for an ad.
-                Log.d("ADS", "Ad was clicked.")
-            }
+    fun showInterstitialAd(context: Context) {
+        mInterstitialAd?.let { ad ->
+            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    // Called when ad is dismissed.
+                    super.onAdDismissedFullScreenContent()
+                    Log.d("ADS", "Ad dismissed fullscreen content.")
+                    mInterstitialAd = null
+                }
 
-            override fun onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                super.onAdDismissedFullScreenContent()
-                Log.d("ADS", "Ad dismissed fullscreen content.")
-                mInterstitialAd = null
-            }
+                override fun onAdImpression() {
+                    super.onAdImpression()
+                    // Called when an impression is recorded for an ad.
+                    Log.d("ADS", "Ad recorded an impression.")
+                }
 
-            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                // Called when ad fails to show.
-                Log.e("ADS", "Ad failed to show fullscreen content.")
-                mInterstitialAd = null
-            }
+                override fun onAdClicked() {
+                    super.onAdClicked()
+                    // Called when a click is recorded for an ad.
+                    Log.d("ADS", "Ad was clicked.")
+                }
 
-            override fun onAdImpression() {
-                super.onAdImpression()
-                // Called when an impression is recorded for an ad.
-                Log.d("ADS", "Ad recorded an impression.")
+                override fun onAdShowedFullScreenContent() {
+                    // Called when ad is shown.
+                    Log.d("ADS", "Ad showed fullscreen content.")
+                }
             }
-
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d("ADS", "Ad showed fullscreen content.")
-            }
+          //  ad.show(context)
         }
     }
 }

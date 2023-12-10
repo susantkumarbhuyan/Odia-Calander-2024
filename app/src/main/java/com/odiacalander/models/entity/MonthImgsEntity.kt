@@ -1,10 +1,12 @@
-package com.odiacalander.data.db.entity
+package com.odiacalander.models.entity
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.odiacalander.models.Month
 
 @Entity(tableName = "monthImgData")
+@Keep
 data class MonthImgsEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,

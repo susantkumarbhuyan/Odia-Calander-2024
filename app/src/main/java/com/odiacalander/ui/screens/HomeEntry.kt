@@ -17,18 +17,15 @@ import com.odiacalander.core.util.CalendarManager
 import com.odiacalander.models.HomeItems
 import com.odiacalander.ui.common.Route
 import com.odiacalander.ui.common.animatedComposable
+import com.odiacalander.ui.viewmodels.CalendarImgViewModel
 import com.odiacalander.ui.viewmodels.HoroscopeViewModel
 import kotlinx.coroutines.runBlocking
 
 
 @Composable
-fun HomeEntry(
+fun HomeEntry(adStatus: (Boolean) -> Unit
 ) {
     val navController = rememberNavController()
-    val context = LocalContext.current
-    val monthList =
-        runBlocking {
-        CalendarManager.loadMonthListFromDB(context)}
 
 
     val onBackPressed: () -> Unit = {
@@ -59,12 +56,13 @@ fun HomeEntry(
             startDestination = Route.HOME
         ) {
             animatedComposable(Route.HOME) {
-                HomeScreen(monthList = monthList) {
+                HomeScreen {
                     navController.navigate(it)
                 }
             }
             animatedComposable(route = HomeItems.CalendarImgs.route) {
-                CalanderImgsScreen(months = monthList)
+                val viewModel = hiltViewModel<CalendarImgViewModel>()
+                CalendarImgsScreen(viewModel= viewModel)
             }
             animatedComposable(route = HomeItems.Calendar.route) {
                 CalendarScreen()
@@ -77,7 +75,7 @@ fun HomeEntry(
                 FestivalsScreen()
             }
             composable(route = HomeItems.Muhurat.route) {
-                MuhurthaScreen()
+                MuhurthaScreen(adStatus =adStatus)
             }
             composable(route = HomeItems.GovtHolidays.route) {
                 HolidayScreen()

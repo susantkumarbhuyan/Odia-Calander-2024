@@ -18,8 +18,15 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-
 }
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 
 rootProject.name = "Odia Calander 2024 - Kohinoor"
 include(":app")

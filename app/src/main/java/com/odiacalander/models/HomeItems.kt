@@ -1,5 +1,6 @@
 package com.odiacalander.models
 
+import android.net.Uri
 import com.odiacalander.R
 
 sealed class HomeItems(val title: Int, val image: String, val route: String) {
@@ -13,14 +14,14 @@ sealed class HomeItems(val title: Int, val image: String, val route: String) {
     data object Calendar :
         HomeItems(
             title = R.string.Calendar,
-            image = "https://cdntc.mpanchang.com/mpnc/images/sun_sign.png",
+            image = "android.resource://com.odiacalander/${R.drawable.calendar}",
             route = "calender"
         )
 
     data object Horoscope :
         HomeItems(
             title = R.string.Horoscope,
-            image = "https://cdntc.mpanchang.com/mpnc/images/horoscope.png",
+            image = "https://cdntc.mpanchang.com/mpnc/images/sun_sign.png",
             route = "horoscope"
         )
 

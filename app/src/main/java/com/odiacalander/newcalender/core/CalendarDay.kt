@@ -20,10 +20,10 @@ data class CalendarDay(val date: LocalDate, val position: DayPosition, val dayDa
     fun copy(newMonth: NewMonth): CalendarDay {
         val cDate = date.dayOfMonth.toString()
         val dayData = NewDayData(
-            newMonth.festivals[cDate].orEmpty(),
+            festivals = newMonth.festivals[cDate].orEmpty(),
             isGovtHoliday = newMonth.govtHolidays.containsKey(cDate),
-            newMonth.lunarDays[cDate],
-            isCurrentData = (date.year == getCurrentYear() && date.yearMonth.monthValue == getCurrentMonth() && cDate == getCurrentDate()),
+            lunarDayType = newMonth.lunarDays[cDate],
+            isCurrentData = (date.year == getCurrentYear() && date.yearMonth.monthValue == getCurrentMonth() && cDate == getCurrentDate().toString()),
             isSunday = arrayOf("SUNDAY").contains(date.dayOfWeek.name)
         )
         return CalendarDay(

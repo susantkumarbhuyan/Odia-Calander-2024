@@ -8,10 +8,11 @@ import kotlinx.coroutines.runBlocking
 
 object CalendarManager {
 
-    fun loadMonthDetailsFromDB(context: Context): NewMonth {
+    fun loadMonthDetailsFromDB(context: Context,monthId:Int): NewMonth {
         val database = CalendarDatabase.getDatabase(context)
       return runBlocking {
-             database.calendarDao().getMonthData(id = 2122023).toNewMonth()
+       val result =   database.calendarDao().getMonthData(id = monthId)
+          if(result != null) result.toNewMonth() else NewMonth()
         }
     }
 
